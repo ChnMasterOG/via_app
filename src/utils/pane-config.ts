@@ -4,9 +4,11 @@ import {
   faGear,
   faKeyboard,
   faStethoscope,
+  faBook,
 } from '@fortawesome/free-solid-svg-icons';
 import {ConfigurePane} from '../components/panes/configure';
 import {Debug} from '../components/panes/debug';
+import {Reference} from '../components/panes/reference';
 import {DesignTab} from '../components/panes/design';
 import {Settings} from '../components/panes/settings';
 import {Test} from '../components/panes/test';
@@ -41,12 +43,21 @@ export default [
     path: '/settings',
     title: 'Settings',
   },
+/* hidden debug
   {
     key: 'debug',
     icon: faBug,
     component: Debug,
     path: '/debug',
     title: 'Debug',
+  },
+*/
+  {
+    key: 'reference',
+    icon: faBook,
+    component: Reference,
+    path: '/reference',
+    title: 'Reference',
   },
   ErrorsPaneConfig,
 ];

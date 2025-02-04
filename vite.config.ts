@@ -22,7 +22,7 @@ export default defineConfig({
   ],
   assetsInclude: ['**/*.glb'],
   envDir: '.',
-  server: {open: true},
+  server: {host: true, port: 80, open: true},
   resolve: {
     alias: {
       src: path.resolve(__dirname, './src'),
