@@ -155,6 +155,28 @@ export class MacroAPIV11 implements IMacroAPI {
                 parseInt(delayValue),
               ]);
               break;
+            case KeyAction.Mouse:
+              byte = bytes[++i];
+              currentSequence.push([
+                RawKeycodeSequenceAction.MouseClick,
+                byte,
+              ]);
+              byte = bytes[++i];
+              currentSequence.push([
+                RawKeycodeSequenceAction.MouseMoveX,
+                byte,
+              ]);
+              byte = bytes[++i];
+              currentSequence.push([
+                RawKeycodeSequenceAction.MouseMoveY,
+                byte,
+              ]);
+              byte = bytes[++i];
+              currentSequence.push([
+                RawKeycodeSequenceAction.MouseMoveZ,
+                byte,
+              ]);
+              break;
             default:
               throw `Expected a KeyAction to follow the KeyActionPrefix. Received ${byte} instead.`;
           }

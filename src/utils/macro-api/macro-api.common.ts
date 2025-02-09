@@ -24,6 +24,7 @@ export enum KeyAction {
   Down = 2, // \x02
   Up = 3, // \x03
   Delay = 4, // \x04
+  Mouse = 5,  // \x05
 }
 
 export const KeyActionPrefix = 1; // \x01
@@ -384,6 +385,18 @@ export function sequenceToExpression(
       case RawKeycodeSequenceAction.Delay:
         result.push('{' + element[1] + '}');
         break;
+      case RawKeycodeSequenceAction.MouseClick:
+        result.push('{MC_' + element[1] + '}');
+        break;
+      case RawKeycodeSequenceAction.MouseMoveX:
+        result.push('{MX_' + element[1] + '}');
+        break;
+      case RawKeycodeSequenceAction.MouseMoveY:
+        result.push('{MY_' + element[1] + '}');
+        break;
+      case RawKeycodeSequenceAction.MouseMoveZ:
+        result.push('{MZ_' + element[1] + '}');
+        break;
       case GroupedKeycodeSequenceAction.Chord:
         result.push('{' + element[1].join(',') + '}');
         break;
@@ -405,6 +418,19 @@ export function expressionToSequence(str: string): OptimizedKeycodeSequence {
       element = element.slice(1, -1);
       if (/^\d+$/.test(element)) {
         result.push([RawKeycodeSequenceAction.Delay, parseInt(element)]);
+      } else if (element[0] == 'M') {
+        // parse Mouse data
+        const value = element
+          .split('_')[1]
+        if (element[1] == 'C') {
+          result.push([RawKeycodeSequenceAction.MouseClick, parseInt(value)]);
+        } else if (element[1] == 'X') {
+          result.push([RawKeycodeSequenceAction.MouseMoveX, parseInt(value)]);
+        } else if (element[1] == 'Y') {
+          result.push([RawKeycodeSequenceAction.MouseMoveY, parseInt(value)]);
+        } else if (element[1] == 'Z') {
+          result.push([RawKeycodeSequenceAction.MouseMoveZ, parseInt(value)]);
+        }
       } else {
         // Otherwise handle as a keycode block
         // Test if there's a + or - after the {

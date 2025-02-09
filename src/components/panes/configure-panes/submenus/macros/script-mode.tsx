@@ -192,6 +192,10 @@ export const ScriptMode: React.FC<{
           ) : (
             'Upgrade firmware to use delays'
           )}
+          <Message>MouseClick: {`{MC_XX}`}</Message>
+          <Message>MouseMoveX: {`{MX_XX}`}</Message>
+          <Message>MouseMoveY: {`{MY_XX}`}</Message>
+          <Message>MouseMoveZ: {`{MZ_XX}`}</Message>
           <Message>Type ? to search for keycodes</Message>
         </DescriptionLabel>
         <Detail>

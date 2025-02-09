@@ -3,11 +3,15 @@ export enum RawKeycodeSequenceAction {
   Down = 2,
   Up = 3,
   Delay = 4,
-  CharacterStream = 5,
+  MouseClick = 5,
+  MouseMoveX = 6,
+  MouseMoveY = 7,
+  MouseMoveZ = 8,
+  CharacterStream = 9,
 }
 
 export enum GroupedKeycodeSequenceAction {
-  Chord = 6,
+  Chord = 10,
 }
 
 export type RawKeycodeSequenceItem = [

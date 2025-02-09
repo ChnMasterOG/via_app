@@ -634,6 +634,10 @@ export function getKeycodes(numMacros = 16): IKeycodeMenu[] {
         {name: 'Down', code: 'KC_DOWN', keys: 'down', shortName: '↓'},
         {name: 'Up', code: 'KC_UP', keys: 'up', shortName: '↑'},
         {name: 'Right', code: 'KC_RGHT', keys: 'right', shortName: '→'},
+        {name: 'Mouse Left', code: 'KC_TP78_MS_L'},
+        {name: 'Mouse Right', code: 'KC_TP78_MS_R'},
+        {name: 'Mouse Middle', code: 'KC_TP78_MS_M'},
+        {name: 'Fn', code: 'KC_TP78_FN'},
       ],
     },
     {
