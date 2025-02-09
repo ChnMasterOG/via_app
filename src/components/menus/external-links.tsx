@@ -1,4 +1,4 @@
-import {faDiscord, faGithub, faBuysellads} from '@fortawesome/free-brands-svg-icons';
+import {faQq, faGithub, faAlipay} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import {VIALogo} from '../icons/via';
@@ -22,7 +22,7 @@ export const ExternalLinks = () => (
     </a>
     <a href="https://qm.qq.com/q/IIJ9Co95ee" target="_blank">
       <CategoryIconContainer>
-        <FontAwesomeIcon size={'xl'} icon={faDiscord} />
+        <FontAwesomeIcon size={'xl'} icon={faQq} />
         <CategoryMenuTooltip>Discord</CategoryMenuTooltip>
       </CategoryIconContainer>
     </a>
@@ -34,8 +34,8 @@ export const ExternalLinks = () => (
     </a>
     <a href="https://item.taobao.com/item.htm?ft=t&id=765881659540" target="_blank">
       <CategoryIconContainer>
-        <FontAwesomeIcon size={'xl'} icon={faBuysellads} />
-        <CategoryMenuTooltip>Buy</CategoryMenuTooltip>
+        <FontAwesomeIcon size={'xl'} icon={faAlipay} />
+        <CategoryMenuTooltip>Buy TP78</CategoryMenuTooltip>
       </CategoryIconContainer>
     </a>
   </ExternalLinkContainer>

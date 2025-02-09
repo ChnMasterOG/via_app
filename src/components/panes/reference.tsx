@@ -40,9 +40,15 @@ export const Reference = () => {
         <SpanOverflowCell style={{flex: 1, borderWidth: 0}}>
           <Container>
             <ControlRow>
-              <Label>Want to buy TP78</Label>
+              <Label>立创开源广场：TP78</Label>
               <Detail>
-                <AccentButton onClick={() => window.open('https://www.baidu.com')}>Open</AccentButton>
+                <AccentButton onClick={() => window.open('https://oshwhub.com/bibilala/tp78_2022-08-31')}>Open</AccentButton>
+              </Detail>
+            </ControlRow>
+            <ControlRow>
+              <Label>立创开源广场：TP78 foc</Label>
+              <Detail>
+                <AccentButton onClick={() => window.open('https://oshwhub.com/chnmasterog/tp78_foc_-zhi-neng-xuan-niu-jian-pan-kuo-zhan-mo-kuai')}>Open</AccentButton>
               </Detail>
             </ControlRow>
           </Container>

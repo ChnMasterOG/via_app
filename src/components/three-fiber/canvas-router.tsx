@@ -112,13 +112,12 @@ export const NonSuspenseCanvasRouter = () => {
   const showAuthorizeButton = 'hid' in navigator || OVERRIDE_HID_CHECK;
   const hideCanvasScene =
     !showAuthorizeButton ||
-    ['/settings', '/errors'].includes(path) ||
+    ['/settings', '/errors', '/reference'].includes(path) ||
     hideDesignScene ||
     hideConfigureScene;
   const configureKeyboardIsSelectable = useAppSelector(
     getConfigureKeyboardIsSelectable,
   );
-
   const hideTerrainBG = showLoader;
   return (
     <>
