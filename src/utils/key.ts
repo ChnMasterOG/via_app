@@ -755,6 +755,12 @@ export function getKeycodes(numMacros = 16): IKeycodeMenu[] {
       width: 'label',
       keycodes: generateMacros(numMacros)
     },
+    {
+      id: 'magnet',
+      label: 'Magnet',
+      width: 'label',
+      keycodes: []
+    },
     buildLayerMenu(),
     {
       id: 'special',
@@ -999,7 +1005,7 @@ export const categoriesForKeycodeModule = (
   keycodeModule: BuiltInKeycodeModule | 'default',
 ) =>
   ({
-    default: ['basic', 'media', 'macro', 'layers', 'special'],
+    default: ['basic', 'media', 'macro', 'magnet', 'layers', 'special'],
     [BuiltInKeycodeModule.WTLighting]: ['wt_lighting'],
     [BuiltInKeycodeModule.QMKLighting]: ['qmk_lighting'],
   }[keycodeModule]);

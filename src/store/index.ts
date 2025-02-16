@@ -1,6 +1,7 @@
 import {AnyAction, configureStore, ThunkAction} from '@reduxjs/toolkit';
 import settingsReducer from './settingsSlice';
 import macrosReducer from './macrosSlice';
+import magnetReducer from './magnetSlice';
 import devicesReducer from './devicesSlice';
 import keymapReducer from './keymapSlice';
 import definitionsReducer from './definitionsSlice';
@@ -14,6 +15,7 @@ export const store = configureStore({
   reducer: {
     settings: settingsReducer,
     macros: macrosReducer,
+    magnet: magnetReducer,
     devices: devicesReducer,
     keymap: keymapReducer,
     definitions: definitionsReducer,

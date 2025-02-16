@@ -51,6 +51,18 @@ export const Reference = () => {
                 <AccentButton onClick={() => window.open('https://oshwhub.com/chnmasterog/tp78_foc_-zhi-neng-xuan-niu-jian-pan-kuo-zhan-mo-kuai')}>Open</AccentButton>
               </Detail>
             </ControlRow>
+            <ControlRow>
+              <Label>Makerworld：TP78</Label>
+              <Detail>
+                <AccentButton onClick={() => window.open('https://makerworld.com/zh/models/172159')}>Open</AccentButton>
+              </Detail>
+            </ControlRow>
+            <ControlRow>
+              <Label>Makerworld：TP78 foc</Label>
+              <Detail>
+                <AccentButton onClick={() => window.open('https://makerworld.com/zh/models/604167')}>Open</AccentButton>
+              </Detail>
+            </ControlRow>
           </Container>
         </SpanOverflowCell>
       </Grid>

@@ -44,6 +44,8 @@ import {
   getDisableFastRemap,
 } from 'src/store/settingsSlice';
 import {getNextKey} from 'src/utils/keyboard-rendering';
+import {getIsMagnetFeatureSupported} from 'src/store/magnetSlice'
+
 const KeycodeList = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, 64px);
@@ -143,6 +145,7 @@ export const Pane: FC = () => {
 export const KeycodePane: FC = () => {
   const dispatch = useAppDispatch();
   const macros = useAppSelector((state: any) => state.macros);
+  const magnet = useAppSelector((state: any) => state.magnet);
   const selectedDefinition = useAppSelector(getSelectedDefinition);
   const selectedDevice = useAppSelector(getSelectedConnectedDevice);
   const matrixKeycodes = useAppSelector(getSelectedKeymap);
@@ -208,6 +211,14 @@ export const KeycodePane: FC = () => {
       <ErrorMessage>
         Your current firmware does not support macros. Install the latest
         firmware for your device.
+      </ErrorMessage>
+    );
+  };
+
+  const renderMagnetError = () => {
+    return (
+      <ErrorMessage>
+        Your current keyboard does not support magnet keys.
       </ErrorMessage>
     );
   };
@@ -321,6 +332,13 @@ export const KeycodePane: FC = () => {
           <KeycodeList>
             {keycodeListItems.concat(renderCustomKeycode())}
           </KeycodeList>
+        );
+      }
+      case 'magnet': {
+        return !magnet.isFeatureSupported ? (
+          renderMagnetError()
+        ) : (
+          <KeycodeList>{keycodeListItems}</KeycodeList>
         );
       }
       case 'custom': {

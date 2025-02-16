@@ -40,6 +40,13 @@ enum APICommand {
   DYNAMIC_KEYMAP_GET_ENCODER = 0x14,
   DYNAMIC_KEYMAP_SET_ENCODER = 0x15,
 
+  DYNAMIC_KEYMAP_MAGNET_GET_RANGE = 0x20,
+  DYNAMIC_KEYMAP_MAGNET_SET_RANGE = 0x21,
+  DYNAMIC_KEYMAP_MAGNET_GET_BUFFER = 0x22,
+  DYNAMIC_KEYMAP_MAGNET_SET_BUFFER = 0x23,
+  DYNAMIC_KEYMAP_MAGNET_GET_VALUE = 0x24,
+  DYNAMIC_KEYMAP_MAGNET_SET_VALUE = 0x25,
+
   // DEPRECATED:
   BACKLIGHT_CONFIG_SET_VALUE = 0x07,
   BACKLIGHT_CONFIG_GET_VALUE = 0x08,
@@ -562,6 +569,50 @@ export class KeyboardAPI {
 
   async resetMacros() {
     await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MACRO_RESET);
+  }
+
+  async getMagnetRange(): Promise<number[]> {
+    const [, hi_minrange, lo_minrange, hi_maxrange, lo_maxrange] = await this.hidCommand(
+      APICommand.DYNAMIC_KEYMAP_MAGNET_GET_RANGE,
+    );
+    const minRange = shiftTo16Bit([hi_minrange, lo_minrange]);
+    const maxRange = shiftTo16Bit([hi_maxrange, lo_maxrange]);
+    const data = [minRange, maxRange];
+    return data;
+  }
+
+  async setMagnetRange(data: number[]) {
+    await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_SET_RANGE, [
+      ...shiftFrom16Bit(data[0]),
+      ...shiftFrom16Bit(data[1]),
+    ]);
+  }
+
+  async getMagnetValue(
+    layer: number,
+    row: number,
+    col: number
+  ) {
+    const [, _layer, _row, _col, _hi, _lo] = await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_GET_VALUE, [
+      layer,
+      row,
+      col
+    ]);
+    return shiftTo16Bit([_hi, _lo]);
+  }
+
+  async setMagnetValue(
+    layer: number,
+    row: number,
+    col: number,
+    data: number
+  ) {
+    await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_GET_VALUE, [
+      layer,
+      row,
+      col,
+      ...shiftFrom16Bit(data)
+    ]);
   }
 
   get commandQueueWrapper() {
