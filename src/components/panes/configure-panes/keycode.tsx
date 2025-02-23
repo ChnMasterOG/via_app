@@ -4,6 +4,7 @@ import {Button} from '../../inputs/button';
 import {KeycodeModal} from '../../inputs/custom-keycode-modal';
 import {title, component} from '../../icons/keyboard';
 import * as EncoderPane from './encoder';
+import * as MagnetPane from './magnet';
 import {
   keycodeInMaster,
   getByteForCode,
@@ -44,7 +45,6 @@ import {
   getDisableFastRemap,
 } from 'src/store/settingsSlice';
 import {getNextKey} from 'src/utils/keyboard-rendering';
-import {getIsMagnetFeatureSupported} from 'src/store/magnetSlice'
 
 const KeycodeList = styled.div`
   display: grid;
@@ -338,7 +338,10 @@ export const KeycodePane: FC = () => {
         return !magnet.isFeatureSupported ? (
           renderMagnetError()
         ) : (
-          <KeycodeList>{keycodeListItems}</KeycodeList>
+          <>
+          <MagnetPane.Pane />
+          <MagnetPane.SpecificPane />
+          </>
         );
       }
       case 'custom': {

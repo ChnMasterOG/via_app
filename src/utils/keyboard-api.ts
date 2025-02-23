@@ -607,12 +607,63 @@ export class KeyboardAPI {
     col: number,
     data: number
   ) {
-    await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_GET_VALUE, [
+    await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_SET_VALUE, [
       layer,
       row,
       col,
       ...shiftFrom16Bit(data)
     ]);
+  }
+
+  async getMagnetValueBuffer(offset: number, size: number): Promise<number[]> {
+    if (size > 28) {
+      throw new Error('Max data length is 28');
+    }
+    // id_dynamic_keymap_magnet_get_buffer <offset> <size> ^<data>
+    // offset is 16bit. size is 8bit. data is 16bit keycode values, maximum 28 bytes.
+    const res = await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_GET_BUFFER, [
+      ...shiftFrom16Bit(offset),
+      size,
+    ]);
+    return [...res].slice(4, size + 4);
+  }
+
+  async getMagnetValueMatrix(
+    {rows, cols}: MatrixInfo,
+    layer: number,
+  ): Promise<number[]> {
+    const length = rows * cols;
+    const MAX_MAGKEY_PARTIAL = 14;
+    const bufferList = new Array<number>(
+      Math.ceil(length / MAX_MAGKEY_PARTIAL),
+    ).fill(0);
+    const {res: promiseRes} = bufferList.reduce(
+      ({res, remaining}: {res: Promise<number[]>[]; remaining: number}) =>
+        remaining < MAX_MAGKEY_PARTIAL
+          ? {
+              res: [
+                ...res,
+                this.getMagnetValueBuffer(
+                  layer * length * 2 + 2 * (length - remaining),
+                  remaining * 2,
+                ),
+              ],
+              remaining: 0,
+            }
+          : {
+              res: [
+                ...res,
+                this.getMagnetValueBuffer(
+                  layer * length * 2 + 2 * (length - remaining),
+                  MAX_MAGKEY_PARTIAL * 2,
+                ),
+              ],
+              remaining: remaining - MAX_MAGKEY_PARTIAL,
+            },
+      {res: [], remaining: length},
+    );
+    const yieldedRes = await Promise.all(promiseRes);
+    return yieldedRes.flatMap(shiftBufferTo16Bit);
   }
 
   get commandQueueWrapper() {

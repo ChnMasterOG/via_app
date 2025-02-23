@@ -16,6 +16,7 @@ import {
   loadStoredCustomDefinitions,
 } from './definitionsSlice';
 import {loadKeymapFromDevice} from './keymapSlice';
+import {loadMagnetValFromDevice} from './magnetSlice';
 import {updateLightingData} from './lightingSlice';
 import {loadMacros} from './macrosSlice';
 import {loadMagnet} from './magnetSlice';
@@ -88,6 +89,7 @@ const selectConnectedDevice =
 
       // John you drongo, don't trust the compiler, dispatches are totes awaitable for async thunks
       await dispatch(loadKeymapFromDevice(connectedDevice));
+      await dispatch(loadMagnetValFromDevice(connectedDevice));
       selectConnectedDeviceRetry.clear();
     } catch (e) {
       if (selectConnectedDeviceRetry.retriesLeft()) {

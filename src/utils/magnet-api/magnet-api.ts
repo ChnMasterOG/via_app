@@ -21,6 +21,10 @@ export class MagnetAPI {
     this.valid = validateMagnetExpression(data);
   }
 
+  getValidation() {
+    return this.valid;
+  }
+
   async readMagnetRange() {
     if (this.keyboardApi) {
       const bytes = await this.keyboardApi.getMagnetRange();
