@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {useAppSelector} from 'src/store/hooks';
 import {KeyboardAPI} from 'src/utils/keyboard-api';
 import {getMagnetAPI} from 'src/utils/magnet-api/magnet-api';
 import type {ConnectedDevice} from '../types/types';
@@ -12,16 +11,10 @@ import {
   getSelectedDefinition,
   getSelectedKeyDefinitions,
 } from './definitionsSlice';
-import {
-  getNumberOfLayers,
-  getSelectedLayerIndex,
-} from 'src/store/keymapSlice';
 import type {AppThunk, RootState} from './index';
 
-export type KeyMagnetVal = number[];
-
 type MagnetState = {
-  magnetCurrentVal: KeyMagnetVal[];
+  magnetCurrentVal: number[];
   magnetThresholdMin: number;
   magnetThresholdMax: number;
   isFeatureSupported: boolean;
@@ -54,30 +47,41 @@ const magnetSlice = createSlice({
     loadMagnetValueSuccess: (
       state,
       action: PayloadAction<{
-        layerIndex: number;
-        numberOfLayers: number;
         magval: number[];
       }>,
     ) => {
-      const {layerIndex, numberOfLayers, magval} = action.payload;
-      state.magnetCurrentVal[layerIndex] = magval;
+      const {magval} = action.payload;
+      state.magnetCurrentVal = magval;
     },
     setMagnetVal: (
       state,
       action: PayloadAction<{
-        layerIndex: number;
         keymapIndex: number;
         value: number;
       }>,
     ) => {
-      const {layerIndex, keymapIndex, value} = action.payload;
+      const {keymapIndex, value} = action.payload;
 
-      state.magnetCurrentVal[layerIndex][keymapIndex] = value;
+      state.magnetCurrentVal[keymapIndex] = value;
+    },
+    setMagnetValByRange: (
+      state,
+      action: PayloadAction<{
+        offset: number;
+        size: number;
+        value: number;
+      }>,
+    ) => {
+      const {offset, size, value} = action.payload;
+
+      for (var i = 0; i < size; i++) {
+        state.magnetCurrentVal[offset + i] = value;
+      }
     },
   },
 });
 
-export const {loadMagnetSuccess, setMagnetNotSupported, loadMagnetValueSuccess, setMagnetVal} =
+export const {loadMagnetSuccess, setMagnetNotSupported, loadMagnetValueSuccess, setMagnetVal, setMagnetValByRange} =
 magnetSlice.actions;
 
 export default magnetSlice.reducer;
@@ -118,13 +122,9 @@ export const loadMagnetValFromDevice =
 
     const {matrix} =
       getDefinitions(state)[vendorProductId][requiredDefinitionVersion];
-
-    const numberOfLayers = state.keymap.numberOfLayers;
   
-    for (var layerIndex = 0; layerIndex < numberOfLayers; layerIndex++) {
-      const keymagnet = await api.getMagnetValueMatrix(matrix, layerIndex);
-      dispatch(loadMagnetValueSuccess({layerIndex: layerIndex, numberOfLayers: numberOfLayers, magval: keymagnet}));
-    }
+    const keymagnet = await api.getMagnetValueMatrix(matrix);
+    dispatch(loadMagnetValueSuccess({magval: keymagnet}));
   };
 
 export const updateMagnetVal =
@@ -139,12 +139,50 @@ export const updateMagnetVal =
       return;
     }
 
-    const selectedLayerIndex = getSelectedLayerIndex(state);
     const {row, col} = keys[keyIndex];
     const {matrix} = selectedDefinition;
 
-    await api.setMagnetValue(selectedLayerIndex, row, col, value);
-    dispatch(setMagnetVal({layerIndex: selectedLayerIndex, keymapIndex: row * matrix.cols + col, value: value}));
+    await api.setMagnetValue(row, col, value);
+    dispatch(setMagnetVal({keymapIndex: row * matrix.cols + col, value: value}));
+  };
+
+export const updateMagnetValByRange =
+  (range_min: number, range_max: number, value: number): AppThunk =>
+  async (dispatch, getState) => {
+    const state = getState();
+    const keys = getSelectedKeyDefinitions(state);
+    const connectedDevice = getSelectedConnectedDevice(state);
+    const api = getSelectedKeyboardAPI(state);
+    const selectedDefinition = getSelectedDefinition(state);
+    if (!connectedDevice || !keys || !selectedDefinition || !api) {
+      return;
+    }
+
+    for (var offset = range_min; offset <= range_max; offset += 28) {
+      await api.setMagnetValueBuffer(offset, value, range_max - offset >= 28 ? 28 : range_max - offset + 1);
+    }
+    dispatch(setMagnetValByRange({offset: range_min, size: range_max - range_min + 1, value: value}));
+  };
+
+export const updateMagnetValAll =
+  (value: number): AppThunk =>
+  async (dispatch, getState) => {
+    const state = getState();
+    const keys = getSelectedKeyDefinitions(state);
+    const connectedDevice = getSelectedConnectedDevice(state);
+    const api = getSelectedKeyboardAPI(state);
+    const selectedDefinition = getSelectedDefinition(state);
+    if (!connectedDevice || !keys || !selectedDefinition || !api) {
+      return;
+    }
+
+    const {matrix} = selectedDefinition;
+    const length = matrix.cols * matrix.rows * 2;
+
+    for (var offset = 0; offset < length; offset += 28) {
+      await api.setMagnetValueBuffer(offset, value, length - offset > 28 ? 28 : length - offset);
+    }
+    dispatch(setMagnetValByRange({offset: 0, size: length, value: value}));
   };
 
 export const getMagnetVal = (state: RootState, keyIndex: number) => {
@@ -156,11 +194,10 @@ export const getMagnetVal = (state: RootState, keyIndex: number) => {
     return 0;
   }
 
-  const selectedLayerIndex = getSelectedLayerIndex(state);
   const {row, col} = keys[keyIndex];
   const {matrix} = selectedDefinition;
 
-  return state.magnet.magnetCurrentVal[selectedLayerIndex][row * matrix.cols + col];
+  return state.magnet.magnetCurrentVal[row * matrix.cols + col];
 };
 
 export const getIsMagnetFeatureSupported = (state: RootState) =>

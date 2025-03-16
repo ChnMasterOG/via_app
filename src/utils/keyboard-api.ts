@@ -589,12 +589,10 @@ export class KeyboardAPI {
   }
 
   async getMagnetValue(
-    layer: number,
     row: number,
     col: number
   ) {
-    const [, _layer, _row, _col, _hi, _lo] = await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_GET_VALUE, [
-      layer,
+    const [, _row, _col, _hi, _lo] = await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_GET_VALUE, [
       row,
       col
     ]);
@@ -602,13 +600,11 @@ export class KeyboardAPI {
   }
 
   async setMagnetValue(
-    layer: number,
     row: number,
     col: number,
     data: number
   ) {
     await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_SET_VALUE, [
-      layer,
       row,
       col,
       ...shiftFrom16Bit(data)
@@ -619,7 +615,6 @@ export class KeyboardAPI {
     if (size > 28) {
       throw new Error('Max data length is 28');
     }
-    // id_dynamic_keymap_magnet_get_buffer <offset> <size> ^<data>
     // offset is 16bit. size is 8bit. data is 16bit keycode values, maximum 28 bytes.
     const res = await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_GET_BUFFER, [
       ...shiftFrom16Bit(offset),
@@ -628,9 +623,20 @@ export class KeyboardAPI {
     return [...res].slice(4, size + 4);
   }
 
+  async setMagnetValueBuffer(offset: number, data: number, size: number) {
+    if (size > 28) {
+      throw new Error('Max data length is 28');
+    }
+    // offset is 16bit. size is 8bit. data is 16bit keycode values, maximum 28 bytes.
+    await this.hidCommand(APICommand.DYNAMIC_KEYMAP_MAGNET_SET_BUFFER, [
+      ...shiftFrom16Bit(offset),
+      size,
+      ...Array(size / 2).fill(data).flatMap(v => shiftFrom16Bit(v)),
+    ]);
+  }
+
   async getMagnetValueMatrix(
     {rows, cols}: MatrixInfo,
-    layer: number,
   ): Promise<number[]> {
     const length = rows * cols;
     const MAX_MAGKEY_PARTIAL = 14;
@@ -644,7 +650,7 @@ export class KeyboardAPI {
               res: [
                 ...res,
                 this.getMagnetValueBuffer(
-                  layer * length * 2 + 2 * (length - remaining),
+                  2 * (length - remaining),
                   remaining * 2,
                 ),
               ],
@@ -654,7 +660,7 @@ export class KeyboardAPI {
               res: [
                 ...res,
                 this.getMagnetValueBuffer(
-                  layer * length * 2 + 2 * (length - remaining),
+                  2 * (length - remaining),
                   MAX_MAGKEY_PARTIAL * 2,
                 ),
               ],
