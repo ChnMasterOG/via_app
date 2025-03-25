@@ -23,7 +23,16 @@ export const Pane: FC = () => {
       <SpanOverflowCell style={{flex: 1, borderWidth: 0}}>
       <Container>
         <ControlRow>
-          <Label>TODO</Label>
+          <Label>硬件PCB开源：立创开源广场</Label>
+          <Detail>
+            <AccentButton onClick={() => window.open('https://oshwhub.com/chnmasterog/tp78_foc_-zhi-neng-xuan-niu-jian-pan-kuo-zhan-mo-kuai')}>Open</AccentButton>
+          </Detail>
+        </ControlRow>
+        <ControlRow>
+          <Label>硬件3D模型开源：Makerworld</Label>
+          <Detail>
+            <AccentButton onClick={() => window.open('https://makerworld.com/zh/models/604167')}>Open</AccentButton>
+          </Detail>
         </ControlRow>
       </Container>
     </SpanOverflowCell>

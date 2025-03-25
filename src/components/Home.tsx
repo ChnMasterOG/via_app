@@ -170,6 +170,7 @@ export const Home: React.FC<HomeProps> = (props) => {
   }, [api]);
 
   return !hasHIDSupport && !OVERRIDE_HID_CHECK ? (
+    <>
     <ErrorHome ref={homeElem} tabIndex={0}>
       <UsbError>
         <UsbErrorIcon>❌</UsbErrorIcon>
@@ -187,7 +188,16 @@ export const Home: React.FC<HomeProps> = (props) => {
         </p>
       </UsbError>
     </ErrorHome>
+    <div>
+      <center>闽ICP备2025092371号 ©2025 ChnMasterOG</center>
+    </div>
+    </>
   ) : (
+    <>
     <>{props.children}</>
+    <div>
+      <center>闽ICP备2025092371号 ©2025 ChnMasterOG</center>
+    </div>
+    </>
   );
 };
