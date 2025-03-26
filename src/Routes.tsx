@@ -42,6 +42,21 @@ export default () => {
 
           <Home hasHIDSupport={hasHIDSupport}>{RouteComponents}</Home>
         </TestContext.Provider>
+        <div
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: '#333',
+          color: 'white',
+          padding: '4px',
+          textAlign: 'center',
+          zIndex: 1000
+        }}
+      >
+        <span>闽ICP备2025092371号 ©2025 ChnMasterOG</span>
+      </div>
     </>
   );
 };
