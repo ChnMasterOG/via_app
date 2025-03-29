@@ -332,6 +332,7 @@ const TP78v2_Guide: React.FC = () => {
       whiteSpace: 'pre-wrap' as const
     },
     imageStyle: {
+      display: 'block',
       width: '100%',
       maxWidth: '800px',
       margin: '10px auto',
@@ -385,7 +386,7 @@ const TP78v2_Guide: React.FC = () => {
         style={styles.imageStyle}
       />
       <pre style={styles.codeBlock}>
-      {`步骤：
+      {`使用步骤：
 1. 安装工具和相关驱动
 2. 打开软件，选择MCU系列：“32位低功耗蓝牙系列”，芯片选择：CH58x，芯片型号：CH582
 3. 拆除外壳按住主板背面boot按键上电进入ROM boot模式
@@ -400,7 +401,7 @@ const TP78v2_Guide: React.FC = () => {
       <h3>2. 使用kboot升级固件</h3>
       <li>Github上不包含kboot代码，只有从官方渠道购买的板子默认会刷好kboot固件。没有kboot固件不影响键盘正常使用，有kboot固件的板子建议使用kboot升级固件，无需额外安装软件，升级更加方便和安全</li>
       <pre style={styles.codeBlock}>
-      {`步骤：
+      {`使用步骤：
 1. 按下Fn+b进入kboot模式/按住ESC键上电进入kboot模式
 2. 弹出U盘选择格式化，此时键盘中的主固件被擦除
 3. 将新固件（.bin）文件拖进U盘
