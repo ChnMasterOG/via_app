@@ -18,7 +18,6 @@ export const Pane: FC = () => {
   const thr_max = magnet.magnetThresholdMax;
   const thr_min = magnet.magnetThresholdMin;
   const [globalRtValue, setGlobalRtValue] = useState<number>(thr_min || 0);
-  var global_rt_val : number;
 
   return (
     <>
@@ -31,7 +30,7 @@ export const Pane: FC = () => {
     <ControlRow>
       <Label>Global RT Value: {globalRtValue}</Label>
       <Detail>
-      <AccentRange
+      <AccentRangeButton
         max={thr_max}
         min={thr_min}
         value={globalRtValue}
