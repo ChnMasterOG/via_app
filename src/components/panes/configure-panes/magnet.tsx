@@ -10,6 +10,7 @@ import {
 } from '../grid';
 import {AccentButton} from 'src/components/inputs/accent-button';
 import {AccentRange} from 'src/components/inputs/accent-range';
+import {AccentRangeButton} from 'src/components/inputs/accent-range-button';
 
 export const Pane: FC = () => {
   const dispatch = useAppDispatch();
@@ -63,7 +64,7 @@ export const SpecificPane: FC = () => {
       <ControlRow>
         <Label>Current RT Value: {cur_val}</Label>
         <Detail>
-        <AccentRange
+        <AccentRangeButton
           max={thr_max}
           min={thr_min}
           value={cur_val}
