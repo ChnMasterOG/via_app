@@ -55,7 +55,7 @@ export const Pane: FC = () => {
           硬件兼容磁轴、机械轴两种轴体。
           固件升级方面支持USB在线升级。
         </li>
-        
+
         <div
           style={{
             display: "grid",
