@@ -2,6 +2,7 @@ import {faQq, faGithub, faAlipay} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import {VIALogo} from '../icons/via';
+import {TaobaoLogo} from '../icons/taobao';
 import {CategoryMenuTooltip} from '../inputs/tooltip';
 import {CategoryIconContainer} from '../panes/grid';
 
@@ -34,7 +35,7 @@ export const ExternalLinks = () => (
     </a>
     <a href="https://item.taobao.com/item.htm?ft=t&id=765881659540" target="_blank">
       <CategoryIconContainer>
-        <FontAwesomeIcon size={'xl'} icon={faAlipay} />
+        <TaobaoLogo height="25px" fill="currentColor" />
         <CategoryMenuTooltip>Buy TP78</CategoryMenuTooltip>
       </CategoryIconContainer>
     </a>
