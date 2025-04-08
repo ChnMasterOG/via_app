@@ -9,6 +9,7 @@ import {
 import {AccentButton} from 'src/components/inputs/accent-button';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBook} from '@fortawesome/free-solid-svg-icons';
+import {TP78miniLogo} from '../../../icons/tp78mini';
 
 import TP78mini_Image1 from 'src/assets/images/TP78mini_Image1.png';
 import TP78mini_Guide from './guide/tp78_mini_guide'
@@ -113,4 +114,5 @@ export const Pane: FC = () => {
 // TODO: these are used in the context that configure.tsx imports menus with props Icon, Title, Pane.
 // Should we encapsulate this type and wrap the exports to conform to them?
 export const Icon = faBook;
+export const SVG_Icon = TP78miniLogo;
 export const Title = 'TP78_mini';

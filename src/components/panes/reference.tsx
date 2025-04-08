@@ -20,17 +20,18 @@ import * as fififun from "src/components/panes/configure-panes/project-panes/fif
 
 type row_header = {
   title: string;
-  icon: any;
+  awe_svg_icon: any;
+  svg_icon: any;
   fc: FC;
 };
 
 export const Reference = () => {
   const KeyboardRows : row_header[] = [
-    {title: tp78v2.Title, icon: tp78v2.Icon, fc: tp78v2.Pane},
-    {title: tp78v3.Title, icon: tp78v3.Icon, fc: tp78v3.Pane},
-    {title: tp78_mini.Title, icon: tp78_mini.Icon, fc: tp78_mini.Pane},
-    {title: tp78_foc.Title, icon: tp78_foc.Icon, fc: tp78_foc.Pane},
-    {title: fififun.Title, icon: fififun.Icon, fc: fififun.Pane},
+    {title: tp78v2.Title, awe_svg_icon: tp78v2.Icon, svg_icon: tp78v2.SVG_Icon, fc: tp78v2.Pane},
+    {title: tp78v3.Title, awe_svg_icon: tp78v3.Icon, svg_icon: tp78v3.SVG_Icon, fc: tp78v3.Pane},
+    {title: tp78_mini.Title, awe_svg_icon: tp78_mini.Icon, svg_icon: tp78_mini.SVG_Icon, fc: tp78_mini.Pane},
+    {title: tp78_foc.Title, awe_svg_icon: tp78_foc.Icon, svg_icon: tp78_foc.SVG_Icon, fc: tp78_foc.Pane},
+    {title: fififun.Title, awe_svg_icon: fififun.Icon, svg_icon: fififun.SVG_Icon, fc: fififun.Pane},
   ];
   const [selectedRow, setRow] = useState(0);
   const _fc : FC = KeyboardRows[selectedRow].fc;
@@ -48,7 +49,7 @@ export const Reference = () => {
                     $selected={selectedRow === idx}
                   >
                     <IconContainer>
-                      <FontAwesomeIcon icon={header.icon} />
+                      {header.svg_icon == null ? <FontAwesomeIcon icon={header.awe_svg_icon} /> : <header.svg_icon />}
                       <MenuTooltip>{header.title}</MenuTooltip>
                     </IconContainer>
                   </Row>
