@@ -37,12 +37,12 @@ const TP78v2_Guide: React.FC = () => {
     {
       name: '接收器进入BootLoader模式',
       key: 'Fn+ESC',
-      desc: '按下Fn+ESC让接收器进入BootLoader模式'
+      desc: '按下Fn+ESC让接收器进入BootLoader'
     },
     {
       name: '主键盘进入BootLoader模式',
       key: 'Fn+B',
-      desc: '按下Fn+B让主键盘进入kboot模式'
+      desc: '按下Fn+B让主键盘进入BootLoader'
     },
     {
       name: '减小音量',
